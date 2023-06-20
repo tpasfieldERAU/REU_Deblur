@@ -11,7 +11,7 @@ def dft(x):
 
 def run_gcv(A, b, func, n):
     d_hat = dft(b)
-    alphavec = np.logspace(-6, 2, n)
+    alphavec = np.logspace(-6, 4, n)
     n = np.shape(b)[0]
 
     GCV = np.zeros(np.shape(alphavec))
@@ -31,7 +31,7 @@ def run_gcv(A, b, func, n):
             ref = GCV[i]
             x_re = A_hat
 
-        # Here for diagnostic purposes, especailyl for TV Regularization
+        # Here for diagnostic purposes, especially for TV Regularization
         #print("STEP")
 
     plt.loglog(alphavec, GCV, '-.')
