@@ -3,11 +3,15 @@ from numpy.fft import fft
 from math import sqrt
 import matplotlib.pyplot as plt
 
+debug = False
 
 def dft(x):
     m, n = np.shape(x)
     return fft(x) / (sqrt(m)*sqrt(n))
 
+def toggleDebug():
+    global debug
+    debug = not debug
 
 def run_gcv(A, b, func, n):
     d_hat = dft(b)
@@ -31,12 +35,10 @@ def run_gcv(A, b, func, n):
             ref = GCV[i]
             x_re = A_hat
 
-        # Here for diagnostic purposes, especially for TV Regularization
-        #print("STEP")
-
-    plt.loglog(alphavec, GCV, '-.')
-    plt.xlabel(r'Regularization Parameter \alpha')
-    plt.title(r'GCV(\alpha)')
-    plt.show()
+    if debug:
+        plt.loglog(alphavec, GCV, '-.')
+        plt.xlabel(r'Regularization Parameter \alpha')
+        plt.title(r'GCV(\alpha)')
+        plt.show()
 
     return x_re, min(GCV)
