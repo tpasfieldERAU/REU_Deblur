@@ -10,7 +10,7 @@ def kernel(n, sigma):
     return la.toeplitz(a)
 
 
-def est_kernel(n, curve):
+def generateBlurMatrix(n, curve):
     a = []
     for i in curve:
         a.append(i)
@@ -21,3 +21,9 @@ def est_kernel(n, curve):
         a = a[0:n]
     a = np.array(a)
     return la.toeplitz(a)
+
+def genkernel(ys_size, sigma):
+    tmp = np.linspace(0, sigma, ys_size+1)
+    a = np.diff(st.norm.cdf(tmp))
+    a = a / a.sum()
+    return a
