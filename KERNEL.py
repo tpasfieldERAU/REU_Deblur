@@ -23,7 +23,7 @@ def generateBlurMatrix(n, curve):
     return la.toeplitz(a)
 
 def genkernel(ys_size, sigma):
-    tmp = np.linspace(0, sigma, ys_size+1)
+    tmp = np.linspace(0, ys_size/sigma, ys_size+1)
     a = np.diff(st.norm.cdf(tmp))
     a = a / a.sum()
     return a
