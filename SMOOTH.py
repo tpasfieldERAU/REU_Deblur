@@ -26,9 +26,10 @@ def hermite_interpolate(values, mu):
 def generate_smooth_signal():
     vals = np.zeros(512, dtype=np.float32)
     n = 0
-    data = [0, 0]
-    for i in range(7):
+    data = [0, 0, 0]
+    for i in range(6):
         data.append(random())
+    data.append(0)
     data.append(0)
     data.append(0)
 
@@ -36,8 +37,8 @@ def generate_smooth_signal():
     for i in range(1, len(data)-2):
         points = data[i-1:i+3]
         n = 0
-        while n < 64:
-            vals[step] = hermite_interpolate(points, n / 64.)
+        while n < 512//(len(data)-3):
+            vals[step] = hermite_interpolate(points, n / (512//(len(data)-3)))
             n += 1
             step += 1
 
