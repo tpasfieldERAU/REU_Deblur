@@ -67,7 +67,7 @@ def run_gcv(A, b, func, n):
         plt.xscale("log")
         plt.yscale("log")
         plt.xlabel(r'Regularization Parameter \alpha')
-        plt.title(r'GCV(\alpha)')
+        plt.title(r'GCV($\alpha$)')
         plt.show()
 
 
