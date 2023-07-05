@@ -2,6 +2,7 @@ import numpy as np
 from numpy.fft import fft
 from math import sqrt, log10
 import matplotlib.pyplot as plt
+from tqdm.notebook import tqdm
 
 debug = False
 
@@ -35,29 +36,31 @@ def run_gcv(A, b, func, n):
     high = 10
     out = []
 
+    with tqdm(total=int(lim*10)) as pbar:
+        while j < lim:
+            if j != 0:
+                span = high - low
+                low = loc - span/4
+                high = loc + span/4
+            alphavec = np.logspace(low, high, 10)
 
-    while j < lim:
-        if j != 0:
-            span = high - low
-            low = loc - span/4
-            high = loc + span/4
-        alphavec = np.logspace(low, high, 10)
+            for i in range(max(np.shape(alphavec))):
+                alpha = alphavec[i]
+                A_hat = func(b, A, alpha)
+                resid = abs(np.multiply((A_hat - 1), d_hat))
+                rms_resid = sum(np.square(resid)) / n
+                trace = sum(A_hat)
+                Vdenom = (1 - trace/n)**2
 
-        for i in range(max(np.shape(alphavec))):
-            alpha = alphavec[i]
-            A_hat = func(b, A, alpha)
-            resid = abs(np.multiply((A_hat - 1), d_hat))
-            rms_resid = sum(np.square(resid)) / n
-            trace = sum(A_hat)
-            Vdenom = (1 - trace/n)**2
+                GCV.append(rms_resid / Vdenom)
+                if GCV[-1] < ref:
+                    ref = GCV[-1]
+                    x_re = A_hat
+                    loc = log10(alpha)
+                out.append([alpha, GCV[-1]])
+                pbar.update(1)
+            j += 1
 
-            GCV.append(rms_resid / Vdenom)
-            if GCV[-1] < ref:
-                ref = GCV[-1]
-                x_re = A_hat
-                loc = log10(alpha)
-            out.append([alpha, GCV[-1]])
-        j += 1
 
     if debug:
         plt.scatter(*zip(*out), 12)
