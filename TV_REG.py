@@ -8,7 +8,7 @@ def tv_regularize(b, A, delta):
     D = np.eye(n) - np.eye(n, k=-1)
 
     def set_values(y, D):
-        psi = 1 / np.sqrt(np.power(D @ y, 2) + 1e-6)
+        psi = 1 / np.sqrt(np.power(D @ y, 2) + 1e-7)
         psi = np.reshape(psi, (1, n))[0]
         DT = D.transpose()
         dpsi = np.diag(psi)
