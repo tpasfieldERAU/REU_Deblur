@@ -17,8 +17,10 @@ def normalize_diff(sig):
 def normalize_edge(sig):
     l = len(sig)
     v = sig[l-l//8:]
+    c = sig[0:l//8]
+    o = mean(c)
     p = mean(v)
-    return [i / p for i in sig]
+    return [(i-o) / p for i in sig]
 
 def find_index(val, ls):
     i = 0
