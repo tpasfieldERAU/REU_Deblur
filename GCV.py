@@ -45,8 +45,8 @@ def run_gcv(A, b, func, n):
     ref = 100
     j = 0
     loc = -1
-    low = -10
-    high = 10
+    low = -4
+    high = 1
     out = []
 
     if pBar:
@@ -56,6 +56,7 @@ def run_gcv(A, b, func, n):
                     span = high - low
                     low = loc - span/4
                     high = loc + span/4
+
                 alphavec = np.logspace(low, high, 10)
 
                 for i in range(max(np.shape(alphavec))):
