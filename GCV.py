@@ -1,3 +1,5 @@
+# TODO Use normal distribution for determining parameter. Switch to Monte Carlo sampling rather than uniform sampling.
+
 import numpy as np
 from numpy.fft import fft
 from math import sqrt, log10
@@ -7,9 +9,11 @@ from tqdm.notebook import tqdm
 debug = False
 pBar = True
 
+
 def dft(x):
     m, n = np.shape(x)
     return fft(x) / (sqrt(m)*sqrt(n))
+
 
 def toggleDebug(default=0):
     global debug
@@ -21,6 +25,7 @@ def toggleDebug(default=0):
     else:
         debug = not debug
 
+
 def togglePbar(default=0):
     global pBar
     if default != 0:
@@ -31,6 +36,7 @@ def togglePbar(default=0):
     else:
         pBar = not pBar
 
+
 def run_gcv(A, b, func, n):
     global debug
     global pBar
@@ -40,7 +46,6 @@ def run_gcv(A, b, func, n):
     n = b.shape[0]
     x_re = np.zeros(b.shape)
     GCV = []
-
 
     ref = 100
     j = 0
@@ -98,7 +103,6 @@ def run_gcv(A, b, func, n):
                     loc = log10(alpha)
                 out.append([alpha, GCV[-1]])
             j += 1
-
 
     if debug:
         plt.scatter(*zip(*out), 12)
